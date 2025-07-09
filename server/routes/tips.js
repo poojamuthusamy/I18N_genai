@@ -93,7 +93,7 @@ router.get('/', (req, res) => {
 });
 
 // Get random tip
-router.get('/random/tip', (req, res) => {
+router.get('/random', (req, res) => {
   const allTips = Object.values(healthTips).flat();
   const randomTip = allTips[Math.floor(Math.random() * allTips.length)];
   
