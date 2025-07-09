@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Helper - Your Personal Health Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Health Helper</span>
+                </div>
+                <div class="nav-menu">
+                    <button class="nav-item" data-section="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </button>
+                    <button class="nav-item" data-section="symptoms">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Symptoms</span>
+                    </button>
+                    <button class="nav-item" data-section="doctors">
+                        <i class="fas fa-user-md"></i>
+                        <span>Doctors</span>
+                    </button>
+                    <button class="nav-item" data-section="reminders">
+                        <i class="fas fa-bell"></i>
+                        <span>Reminders</span>
+                    </button>
+                    <button class="nav-item" data-section="emergency">
+                        <i class="fas fa-phone"></i>
+                        <span>Emergency</span>
+                    </button>
+                </div>
+                <div class="nav-actions">
+                    <select id="languageSelect" class="language-select">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="fr">Français</option>
+                    </select>
+                    <button class="offline-indicator" id="offlineIndicator">
+                        <i class="fas fa-wifi"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1>Your Personal Health Assistant</h1>
+                        <p>Get instant health advice, find nearby doctors, and manage your wellness journey</p>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" data-section="symptoms">
+                                <i class="fas fa-search"></i>
+                                Check Symptoms
+                            </button>
+                            <button class="btn btn-secondary" data-section="doctors">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Find Doctors
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Image Analysis</h3>
+                        <p>Upload images for basic health checks using AI</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Multi-Language</h3>
+                        <p>Available in multiple regional languages</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Find Doctors</h3>
+                        <p>Locate nearby healthcare professionals</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h3>Health Reminders</h3>
+                        <p>Never miss your medication or water intake</p>
+                    </div>
+                </div>
+
+                <div class="daily-tip">
+                    <h3><i class="fas fa-lightbulb"></i> Daily Health Tip</h3>
+                    <div id="dailyTip" class="tip-content">
+                        Loading tip...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Symptoms Section -->
+            <section id="symptoms" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-stethoscope"></i> Symptom Checker</h2>
+                    <p>Describe your symptoms to get preliminary health insights</p>
+                </div>
+
+                <div class="symptom-checker">
+                    <div class="input-group">
+                        <input type="text" id="symptomInput" placeholder="Enter your symptoms (e.g., headache, fever)">
+                        <button id="addSymptom" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div id="symptomTags" class="symptom-tags"></div>
+
+                    <div class="image-upload">
+                        <h4><i class="fas fa-camera"></i> Upload Image for Analysis</h4>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop an image or click to select</p>
+                            <input type="file" id="imageInput" accept="image/*" hidden>
+                        </div>
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+
+                    <button id="checkSymptoms" class="btn btn-primary btn-large">
+                        <i class="fas fa-search"></i>
+                        Analyze Symptoms
+                    </button>
+
+                    <div id="symptomResults" class="results-container"></div>
+                </div>
+            </section>
+
+            <!-- Doctors Section -->
+            <section id="doctors" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-md"></i> Find Nearby Doctors</h2>
+                    <p>Locate healthcare professionals in your area</p>
+                </div>
+
+                <div class="doctor-search">
+                    <div class="search-filters">
+                        <input type="text" id="specialtyFilter" placeholder="Search by specialty">
+                        <select id="distanceFilter">
+                            <option value="5">Within 5 km</option>
+                            <option value="10">Within 10 km</option>
+                            <option value="25">Within 25 km</option>
+                        </select>
+                        <button id="searchDoctors" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+
+                    <div id="doctorsList" class="doctors-list"></div>
+                </div>
+            </section>
+
+            <!-- Reminders Section -->
+            <section id="reminders" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-bell"></i> Health Reminders</h2>
+                    <p>Set reminders for medications, water intake, and health activities</p>
+                </div>
+
+                <div class="reminder-form">
+                    <div class="form-group">
+                        <label for="reminderType">Reminder Type</label>
+                        <select id="reminderType">
+                            <option value="medication">Medication</option>
+                            <option value="water">Water Intake</option>
+                            <option value="exercise">Exercise</option>
+                            <option value="checkup">Health Checkup</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderTitle">Title</label>
+                        <input type="text" id="reminderTitle" placeholder="e.g., Take blood pressure medication">
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderTime">Time</label>
+                        <input type="time" id="reminderTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderFrequency">Frequency</label>
+                        <select id="reminderFrequency">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <button id="addReminder" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add Reminder
+                    </button>
+                </div>
+
+                <div id="remindersList" class="reminders-list"></div>
+            </section>
+
+            <!-- Emergency Section -->
+            <section id="emergency" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-phone"></i> Emergency Contacts</h2>
+                    <p>Quick access to emergency numbers in your region</p>
+                </div>
+
+                <div class="emergency-selector">
+                    <select id="countrySelect">
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="IN">India</option>
+                        <option value="CA">Canada</option>
+                    </select>
+                </div>
+
+                <div id="emergencyContacts" class="emergency-contacts"></div>
+
+                <div class="emergency-tips">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Emergency Tips</h3>
+                    <ul>
+                        <li>Stay calm and assess the situation</li>
+                        <li>Call emergency services immediately if life-threatening</li>
+                        <li>Provide clear location information</li>
+                        <li>Follow dispatcher instructions</li>
+                        <li>Stay on the line until help arrives</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-heartbeat"></i>
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <!-- Notification Toast -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
